@@ -11,6 +11,7 @@ import { useState , useEffect } from 'react'
 import TaskData from '../Data/TaskData'
 import Completedpages from '../Pages/Completedpages'
 import Inprogresspages from '../Pages/Inprogresspages'
+import PublicDashboard from '../Pages/PublicDashboard'
 
 const AppRoutes = () => {
 const user = JSON.parse(localStorage.getItem('user'));//simple auth logic to check if user is logged in
@@ -27,10 +28,17 @@ const user = JSON.parse(localStorage.getItem('user'));//simple auth logic to che
   }, [tasks]);
 
   const onStatusChange = (taskId, newStatus) => {
-    const updated = tasks.map(task =>
-      task.id === taskId ? { ...task, status: newStatus } : task
-    );
-    setTasks(updated);
+   if (!taskId) {
+    console.error("Invalid taskId in onStatusChange");
+    return;
+  }
+
+  const updatedTasks = tasks.map(task => 
+    task.id === taskId || task._id === taskId 
+      ? { ...task, status: newStatus }
+      : task
+  );
+  setTasks(updatedTasks)
   };
 
   const OnDelete = (taskId) => {
@@ -48,7 +56,8 @@ const user = JSON.parse(localStorage.getItem('user'));//simple auth logic to che
       
     
         <Routes>
-            <Route path="/" element={!user ? <Navigate to="/login"/>: <Navigate to="/dashboard"/>}/>
+          <Route path='/' element={<PublicDashboard/>}/>
+         
             <Route path="/Login" element={<Login/>}/>
             <Route path="/sign_up" element={<Sign_up/>}/>
             
@@ -59,7 +68,11 @@ const user = JSON.parse(localStorage.getItem('user'));//simple auth logic to che
         path="/dashboard"
         element={
           <Protectedroute>
-            <Dashboard  tasks={tasks}/>
+            <Dashboard  
+            tasks={tasks}
+            onStatusChange={onStatusChange}
+            onDelete={OnDelete}
+            onAddTask={OnAddTask}/>
           </Protectedroute>
         }
       />

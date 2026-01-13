@@ -1,8 +1,11 @@
 import React from 'react'
 
-const TaskCard = ({title , priority , task , onStatusChange , onDelete }) => {
+const TaskCard = ({title , priority , task , onDelete }) => {
     //this component will be used to display individual tasks in the task board
+      console.log("TaskCard props:", { title, priority, task });
 
+
+     const actualPriority = priority || task?.priority || 'low';
     // this is the class for change the border based on the priority
     const priorityColors = {
         low: 'border-green-500',
@@ -27,34 +30,22 @@ const TaskCard = ({title , priority , task , onStatusChange , onDelete }) => {
       onDelete(task.id); // delegate to parent
       
      }
-    const handleMove = () =>{
-      if(task.status === "todo"){
-        onStatusChange(task.id , "inprogress");
-      }else if(task.status === "inprogress"){
-        onStatusChange(task.id , "completed");
-      }
-      }
-    // this function will be used to change the status of the task when it is move from one column to another 
+   
+    
 
 
   return (
-     <div className={`border-l-4 p-3 ${bgColor} rounded shadow mb-4 ${priorityColors[priority]}`}>
+     <div className={`border-l-4 p-3 ${bgColor} rounded shadow mb-4 ${priorityColors[actualPriority]}`}>
       <h3 className='font-semibold text-gray-800'>{title}</h3>
-      <p className='text-sm text-gray-500 capitalize'>Priority: {priority}</p>
-{/* show button only if task is not completed */}
-      {task.status !== "completed" && (
-        <button 
-        onClick={handleMove}
-        className='mt-2 px-3 py-1 bg-indigo-500 text-white text-sm rounded hover:bg-indigo-600 ' >
-          {task.status === "todo" ? "start" : 'complete'}
-        </button>
-      )}
+      <p className='text-sm text-gray-500 capitalize'>Priority: {actualPriority}</p>
+
+      
 
       {/*show the trash button   */}
       
     <button
     onClick={handleDelete}
-    className='ml-2 px-2 py-1 bg-red-500 , text-white text-sm rounded hover:bg-red-600'>
+    className='ml-2 px-2 py-1 bg-red-500  text-white text-sm rounded hover:bg-red-600'>
       Delete
     </button>
 

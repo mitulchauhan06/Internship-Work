@@ -2,8 +2,9 @@ import React from 'react'
 //import { useAuth } from '../hooks/useAuth'
 import Sidebar from '../Components/sidebar';
 import BarChartWidget from '../Components/BarChartWidget';
+import TaskBoard from './TaskBoard';
 
-const Dashboard = ({tasks }) => {
+const Dashboard = ({tasks , onStatusChange , onDelete , onAddTask }) => {
 //here we count the length of all category tasks
   const totalTasks = tasks.length;
   const completedTasks = tasks.filter(task => task.status === "completed").length;
@@ -47,6 +48,14 @@ const Dashboard = ({tasks }) => {
     <p className="text-3xl font-bold text-indigo-600 mt-2">{completedTasks}</p>
   </div>
 </div>
+
+{/* this is our taskboard section  */}
+<TaskBoard
+tasks={tasks}
+onStatusChange={onStatusChange}
+onDelete={onDelete}
+onAddTask={onAddTask}
+/>
  
 {/*Chart section*/}
 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

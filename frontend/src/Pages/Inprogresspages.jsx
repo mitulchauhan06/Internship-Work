@@ -1,9 +1,9 @@
 import React from 'react'
 import TaskCard from '../Components/TaskCard'
-const Inprogresspages = ({tasks , OnStatusChange , OnDelete}) => {
+const Inprogresspages = ({tasks , onStatusChange , onDelete}) => {
   return (
     <div className='p-4'>
-        <h1 className='text-2xl font-bold mb-4'></h1>
+        <h1 className='text-2xl font-bold mb-4'>In-progress Tasks</h1>
       <div className='bg-white rounded-lg shadow p-4'>
         {tasks 
         .filter(task => task.status === "inprogress")
@@ -12,9 +12,9 @@ const Inprogresspages = ({tasks , OnStatusChange , OnDelete}) => {
             key={task.id}
             title={task.title}
             priority={task.priority}
-            onDelete={OnDelete}
+            onDelete={onDelete}
             task={task}
-            onStatusChange={OnStatusChange}
+            onStatusChange={onStatusChange}
             
             />
         ))
