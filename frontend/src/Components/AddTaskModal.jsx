@@ -35,7 +35,7 @@ const handleSubmit = async (e) => {
 
   try {
     // Send task to backend API
-    const response = await fetch('http://localhost:3001/api/tasks', {
+   const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tasks`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
